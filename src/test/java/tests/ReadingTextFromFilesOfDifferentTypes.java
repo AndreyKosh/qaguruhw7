@@ -1,9 +1,7 @@
 package tests;
 
 import com.codeborne.pdftest.PDF;
-import com.codeborne.selenide.logevents.SelenideLogger;
 import com.codeborne.xlstest.XLS;
-import io.qameta.allure.selenide.AllureSelenide;
 import net.lingala.zip4j.exception.ZipException;
 import org.junit.jupiter.api.Test;
 import utils.Files;
@@ -35,35 +33,30 @@ public class ReadingTextFromFilesOfDifferentTypes {
 
     @Test
     public void textFromTxt() throws IOException {
-        SelenideLogger.addListener("allure", new AllureSelenide());
         String actualData = readTextFromPath(txtPath);
         assertThat(actualData, containsString(expectedText));
     }
 
     @Test
     public void textFromPdf() throws IOException {
-        SelenideLogger.addListener("allure", new AllureSelenide());
         PDF pdf = new PDF(new File(pdfPath));
         assertThat(pdf, containsText(expectedTextFromPdf));
     }
 
     @Test
     public void textFromXls() {
-        SelenideLogger.addListener("allure", new AllureSelenide());
         XLS xls = new XLS(new File(xlsPath));
         assertThat(xls, XLS.containsText(expectedText));
     }
 
     @Test
     public void textFromXlsx() {
-        SelenideLogger.addListener("allure", new AllureSelenide());
         String actualData = readXlsxFromPath(xlsxPath);
         assertThat(actualData, containsString(expectedText));
     }
 
     @Test
     public void textFromZip() throws ZipException, IOException {
-        SelenideLogger.addListener("allure", new AllureSelenide());
         unzip(zipPath, unzipFilePath, zipPassword);
         String actualData = readTextFromPath(unzipTxtPath);
         assertThat(actualData, containsString(expectedText));
@@ -76,7 +69,7 @@ public class ReadingTextFromFilesOfDifferentTypes {
     }
 
     @Test
-    public void readFromDocx() throws IOException {
+    public void readFromDocx() {
         String actualData = Files.readFromDocx(docxPath);
         assertThat(actualData, containsString(expectedText));
     }

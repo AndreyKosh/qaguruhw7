@@ -13,6 +13,7 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -30,27 +31,23 @@ public class Files {
     }
 
     public static String readFromDoc(String path) throws IOException {
-        File fin = new File(path);
-        FileInputStream fis = new FileInputStream(fin);
-        HWPFDocument doc = new HWPFDocument(fis);
-        return doc.getDocumentText();
+        File file = new File(path);
+        try (InputStream fis = new FileInputStream(file)) {
+            HWPFDocument doc = new HWPFDocument(fis);
+            return doc.getDocumentText();
+        }
     }
 
-//    public static String readFromDocx(String path) throws IOException {
-//        File fin = new File(path);
-//        FileInputStream fis = new FileInputStream(fin);
-//        XWPFDocument doc = new XWPFDocument(fis);
-//        doc.getDocument().getBody();
-//        return  doc.getParagraphs().get(0).getParagraphText();
-//    }
-
-    public static String readFromDocx(String path) throws IOException {
-        List<String> list = new ArrayList();
+    public static String readFromDocx(String path) {
+        List<String> list = new ArrayList<>();
         File file = new File(path);
-        FileInputStream fis = new FileInputStream(file);
-        XWPFDocument doc = new XWPFDocument(fis);
-        for (int i = 0; i < doc.getParagraphs().size(); i++) {
-            list.add(doc.getParagraphs().get(i).getParagraphText());
+        try (InputStream fis = new FileInputStream(file)) {
+            XWPFDocument doc = new XWPFDocument(fis);
+            for (int i = 0; i < doc.getParagraphs().size(); i++) {
+                list.add(doc.getParagraphs().get(i).getParagraphText());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return StringUtils.join(list, " ");
     }
@@ -101,5 +98,4 @@ public class Files {
 
         return result;
     }
-
 }

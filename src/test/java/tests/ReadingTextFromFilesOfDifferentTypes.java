@@ -32,44 +32,44 @@ public class ReadingTextFromFilesOfDifferentTypes {
             expectedTextFromPdf = "1. Простая часть дз";
 
     @Test
-    public void textFromTxt() throws IOException {
+    public void readTextFromTxt() throws IOException {
         String actualData = readTextFromPath(txtPath);
         assertThat(actualData, containsString(expectedText));
     }
 
     @Test
-    public void textFromPdf() throws IOException {
+    public void readTextFromPdf() throws IOException {
         PDF pdf = new PDF(new File(pdfPath));
         assertThat(pdf, containsText(expectedTextFromPdf));
     }
 
     @Test
-    public void textFromXls() {
+    public void readTextFromXls() {
         XLS xls = new XLS(new File(xlsPath));
         assertThat(xls, XLS.containsText(expectedText));
     }
 
     @Test
-    public void textFromXlsx() {
+    public void readTextFromXlsx() {
         String actualData = readXlsxFromPath(xlsxPath);
         assertThat(actualData, containsString(expectedText));
     }
 
     @Test
-    public void textFromZip() throws ZipException, IOException {
+    public void readTextFromZip() throws ZipException, IOException {
         unzip(zipPath, unzipFilePath, zipPassword);
         String actualData = readTextFromPath(unzipTxtPath);
         assertThat(actualData, containsString(expectedText));
     }
 
     @Test
-    public void readFromDoc() throws IOException {
+    public void readTextFromDoc() throws IOException {
         String actualData = Files.readFromDoc(docPath);
         assertThat(actualData, containsString(expectedText));
     }
 
     @Test
-    public void readFromDocx() {
+    public void readTextFromDocx() {
         String actualData = Files.readFromDocx(docxPath);
         assertThat(actualData, containsString(expectedText));
     }
